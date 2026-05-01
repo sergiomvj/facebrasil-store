@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export function Hero() {
     return (
         <section className="min-h-screen grid grid-cols-1 lg:grid-cols-2 pt-20 overflow-hidden">
@@ -38,13 +40,19 @@ export function Hero() {
                 </div>
             </div>
 
-            <div className="relative bg-ink flex flex-col justify-end overflow-hidden min-h-[500px] lg:min-h-auto">
-                <div className="absolute inset-0 grid grid-cols-2 grid-rows-3 gap-[2px] bg-[rgba(201,168,76,0.1)] opacity-[0.08]">
-                    <div className="bg-gold"></div><div className="bg-gold"></div><div className="bg-gold"></div>
-                    <div className="bg-gold"></div><div className="bg-gold"></div><div className="bg-gold"></div>
+            <div className="relative bg-ink min-h-[500px] lg:min-h-auto">
+                <div className="absolute inset-0">
+                    <Image
+                        src="/partners.png"
+                        alt="Parceiros Facebrasil"
+                        fill
+                        className="object-cover opacity-20"
+                        priority
+                    />
                 </div>
-                <div className="relative z-10 p-12 lg:p-[60px_50px]">
-                    <div className="bg-cream rounded overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.5)] max-w-[380px] mx-auto transition-transform duration-500 [transform:perspective(800px)_rotateY(-6deg)_rotateX(2deg)] hover:[transform:perspective(800px)_rotateY(0deg)_rotateX(0deg)] animate-fadeUp [animation-delay:300ms]">
+                <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/90 to-transparent" />
+                <div className="relative z-10 p-12 lg:p-[60px_50px] flex items-end justify-center min-h-[500px] lg:min-h-full">
+                    <div className="bg-cream rounded overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.5)] max-w-[380px] w-full transition-transform duration-500 [transform:perspective(800px)_rotateY(-6deg)_rotateX(2deg)] hover:[transform:perspective(800px)_rotateY(0deg)_rotateX(0deg)] animate-fadeUp [animation-delay:300ms]">
                         <div className="bg-editorial-red px-5 py-4 flex items-center justify-between">
                             <div className="font-serif text-white text-[22px] font-black tracking-[-0.5px]">Facebrasil</div>
                             <div className="font-mono text-[rgba(255,255,255,0.7)] text-[10px]">Ed. Digital · 2026</div>
