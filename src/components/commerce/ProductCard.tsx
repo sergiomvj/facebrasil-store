@@ -11,11 +11,16 @@ interface ProductCardProps {
     variant?: 'default' | 'compact';
 }
 
+function getTrackingUrl(productId: string, slug?: string): string {
+    const params = new URLSearchParams({ pid: productId });
+    if (slug) params.set('slug', slug);
+    return `/api/track?${params.toString()}`;
+}
+
 export function ProductCard({ product, variant = 'default' }: ProductCardProps) {
     return (
         <div className={`group relative bg-white border border-[rgba(0,0,0,0.08)] rounded-sm overflow-hidden hover:shadow-lg transition-all duration-300 ${variant === 'compact' ? 'flex' : 'flex-col'}`}>
 
-            {/* Image Section */}
             <div className={`relative overflow-hidden bg-mist ${variant === 'compact' ? 'w-1/3 aspect-square' : 'w-full aspect-[4/3]'}`}>
                 {product.image_url ? (
                     <Image
@@ -35,7 +40,6 @@ export function ProductCard({ product, variant = 'default' }: ProductCardProps) 
                 )}
             </div>
 
-            {/* Content Section */}
             <div className="p-4 flex flex-col flex-1">
                 {product.partners && (
                     <div className="flex items-center gap-2 mb-2">
@@ -52,8 +56,7 @@ export function ProductCard({ product, variant = 'default' }: ProductCardProps) 
                     {product.name}
                 </h3>
 
-                {/* Rating */}
-                {product.rating && (
+                {product.rating != null && (
                     <div className="flex items-center gap-1 mb-3">
                         <div className="flex text-gold">
                             {[...Array(5)].map((_, i) => (
@@ -66,11 +69,11 @@ export function ProductCard({ product, variant = 'default' }: ProductCardProps) 
 
                 <div className="mt-auto pt-4 border-t border-[rgba(0,0,0,0.06)] flex items-center justify-between">
                     <div className="font-mono font-bold text-editorial-red text-base">
-                        {product.price ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price) : 'Sob Consulta'}
+                        {product.price != null ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price) : 'Sob Consulta'}
                     </div>
 
                     <a
-                        href={product.affiliate_link}
+                        href={getTrackingUrl(product.id)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="bg-ink text-cream hover:bg-editorial-red transition-colors w-8 h-8 flex items-center justify-center rounded-sm"

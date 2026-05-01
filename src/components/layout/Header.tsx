@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { MobileMenu } from './MobileMenu';
 
 export function Header() {
     return (
@@ -12,7 +13,7 @@ export function Header() {
                 </div>
             </div>
             <ul className="hidden md:flex gap-9 list-none items-center">
-                <li><Link href="#valor" className="text-ink text-[13px] font-medium tracking-[0.5px] uppercase hover:text-editorial-red transition-colors">Proposta de Valor</Link></li>
+                <li><Link href="/catalogo" className="text-ink text-[13px] font-medium tracking-[0.5px] uppercase hover:text-editorial-red transition-colors">Catálogo</Link></li>
                 <li><Link href="#parceria" className="text-ink text-[13px] font-medium tracking-[0.5px] uppercase hover:text-editorial-red transition-colors">Parcerias</Link></li>
                 <li><Link href="#inovacao" className="text-ink text-[13px] font-medium tracking-[0.5px] uppercase hover:text-editorial-red transition-colors">Recursos</Link></li>
                 <li><Link href="#visual" className="text-ink text-[13px] font-medium tracking-[0.5px] uppercase hover:text-editorial-red transition-colors">Visual</Link></li>
@@ -22,6 +23,7 @@ export function Header() {
                     </Link>
                 </li>
             </ul>
+            <MobileMenu />
         </nav>
     );
 }

@@ -19,6 +19,7 @@ export function Footer() {
                     <ul className="flex flex-col gap-2.5">
                         <li><Link href="#valor" className="text-[13px] text-[rgba(247,243,236,0.55)] hover:text-cream transition-colors">Proposta de Valor</Link></li>
                         <li><Link href="#como-funciona" className="text-[13px] text-[rgba(247,243,236,0.55)] hover:text-cream transition-colors">Como Funciona</Link></li>
+                        <li><Link href="/catalogo" className="text-[13px] text-[rgba(247,243,236,0.55)] hover:text-cream transition-colors">Catálogo</Link></li>
                         <li><Link href="#inovacao" className="text-[13px] text-[rgba(247,243,236,0.55)] hover:text-cream transition-colors">Recursos</Link></li>
                     </ul>
                 </div>
@@ -27,23 +28,23 @@ export function Footer() {
                     <h4 className="font-serif text-sm font-bold mb-5 text-gold">Parceiros</h4>
                     <ul className="flex flex-col gap-2.5">
                         <li><Link href="#parceria" className="text-[13px] text-[rgba(247,243,236,0.55)] hover:text-cream transition-colors">Modelos de Parceria</Link></li>
-                        <li><Link href="#" className="text-[13px] text-[rgba(247,243,236,0.55)] hover:text-cream transition-colors">Cases de Sucesso</Link></li>
-                        <li><Link href="#" className="text-[13px] text-[rgba(247,243,236,0.55)] hover:text-cream transition-colors">Fale Conosco</Link></li>
+                        <li><Link href="#parceria" className="text-[13px] text-[rgba(247,243,236,0.55)] hover:text-cream transition-colors">Cases de Sucesso</Link></li>
+                        <li><Link href="#contato" className="text-[13px] text-[rgba(247,243,236,0.55)] hover:text-cream transition-colors">Fale Conosco</Link></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 className="font-serif text-sm font-bold mb-5 text-gold">Legal</h4>
                     <ul className="flex flex-col gap-2.5">
-                        <li><Link href="#" className="text-[13px] text-[rgba(247,243,236,0.55)] hover:text-cream transition-colors">Termos de Uso</Link></li>
-                        <li><Link href="#" className="text-[13px] text-[rgba(247,243,236,0.55)] hover:text-cream transition-colors">Privacidade</Link></li>
+                        <li><Link href="/termos" className="text-[13px] text-[rgba(247,243,236,0.55)] hover:text-cream transition-colors">Termos de Uso</Link></li>
+                        <li><Link href="/privacidade" className="text-[13px] text-[rgba(247,243,236,0.55)] hover:text-cream transition-colors">Privacidade</Link></li>
                     </ul>
                 </div>
             </div>
 
             <div className="bg-ink px-6 md:px-14 py-5 border-t border-[rgba(255,255,255,0.06)] flex justify-between items-center">
                 <div className="font-mono text-[11px] text-[rgba(255,255,255,0.25)] tracking-[0.5px]">
-                    © 2026 Facebrasil Commerce. Todos os direitos reservados.
+                    &copy; 2026 Facebrasil Commerce. Todos os direitos reservados.
                 </div>
             </div>
         </footer>

@@ -1,6 +1,5 @@
-import Link from 'next/link';
 import { Database } from '@/types/supabase';
-import { Star, Check, X } from 'lucide-react';
+import { Star } from 'lucide-react';
 import Image from 'next/image';
 
 type Product = Database['public']['Tables']['products']['Row'] & {
@@ -10,6 +9,12 @@ type Product = Database['public']['Tables']['products']['Row'] & {
 interface ComparisonTableProps {
     products: Product[];
     title: string;
+}
+
+function getTrackingUrl(productId: string, slug?: string): string {
+    const params = new URLSearchParams({ pid: productId });
+    if (slug) params.set('slug', slug);
+    return `/api/track?${params.toString()}`;
 }
 
 export function ComparisonTable({ products, title }: ComparisonTableProps) {
@@ -37,30 +42,27 @@ export function ComparisonTable({ products, title }: ComparisonTableProps) {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* Price Row */}
                         <tr>
                             <td className="p-4 border-b border-[rgba(0,0,0,0.06)] font-mono text-xs uppercase text-[#888] font-bold">Preço</td>
                             {products.map(p => (
                                 <td key={p.id} className="p-4 border-b border-[rgba(0,0,0,0.06)] text-center font-mono font-bold text-editorial-red">
-                                    {p.price ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(p.price) : '-'}
+                                    {p.price != null ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(p.price) : '-'}
                                 </td>
                             ))}
                         </tr>
 
-                        {/* Rating Row */}
                         <tr>
                             <td className="p-4 border-b border-[rgba(0,0,0,0.06)] font-mono text-xs uppercase text-[#888] font-bold">Avaliação</td>
                             {products.map(p => (
                                 <td key={p.id} className="p-4 border-b border-[rgba(0,0,0,0.06)] text-center">
                                     <div className="flex justify-center text-gold gap-0.5">
-                                        <span className="text-sm font-bold mr-1 text-ink">{p.rating}</span>
-                                        <Star size={14} className="fill-gold" />
+                                        <span className="text-sm font-bold mr-1 text-ink">{p.rating ?? '-'}</span>
+                                        {p.rating != null && <Star size={14} className="fill-gold" />}
                                     </div>
                                 </td>
                             ))}
                         </tr>
 
-                        {/* Partner Row */}
                         <tr>
                             <td className="p-4 border-b border-[rgba(0,0,0,0.06)] font-mono text-xs uppercase text-[#888] font-bold">Vendido por</td>
                             {products.map(p => (
@@ -70,13 +72,12 @@ export function ComparisonTable({ products, title }: ComparisonTableProps) {
                             ))}
                         </tr>
 
-                        {/* CTA Row */}
                         <tr>
                             <td className="p-4 bg-cream/30"></td>
                             {products.map(p => (
                                 <td key={p.id} className="p-4 bg-cream/30 text-center">
                                     <a
-                                        href={p.affiliate_link}
+                                        href={getTrackingUrl(p.id)}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-block bg-ink text-white px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-sm hover:bg-editorial-red transition-colors w-full"
