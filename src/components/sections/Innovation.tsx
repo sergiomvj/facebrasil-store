@@ -67,7 +67,7 @@ export function Innovation() {
                     <div className="text-3xl mb-4">📩</div>
                     <h3 className="font-serif text-xl font-bold mb-2.5 leading-tight text-ink">Newsletter Commerce</h3>
                     <p className="text-sm text-[#666] leading-relaxed mb-4">
-                        A newsletter da Facebrasil inclui uma seção "O que a redação recomenda". Com base de leitores fiel, a conversão via email supera anúncios.
+                        A newsletter da Facebrasil inclui uma seção &ldquo;O que a redação recomenda&rdquo;. Com base de leitores fiel, a conversão via email supera anúncios.
                     </p>
                     <div className="flex gap-2 flex-wrap">
                         <span className="font-mono text-[10px] px-2.5 py-1 border border-[rgba(0,0,0,0.15)] rounded-sm uppercase tracking-wider text-ink">Email Marketing</span>

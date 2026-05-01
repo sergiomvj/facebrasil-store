@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Database } from '@/types/supabase';
-import { Check, Info, ShoppingBag, Star, ThumbsUp } from 'lucide-react';
+import { Info, ShoppingBag, Star, ThumbsUp, Check } from 'lucide-react';
 
 type Product = Database['public']['Tables']['products']['Row'] & {
     partners: Database['public']['Tables']['partners']['Row'] | null;
@@ -11,6 +11,12 @@ interface ReviewBoxProps {
     verdict: string;
     pros: string[];
     cons?: string[];
+}
+
+function getTrackingUrl(productId: string, slug?: string): string {
+    const params = new URLSearchParams({ pid: productId });
+    if (slug) params.set('slug', slug);
+    return `/api/track?${params.toString()}`;
 }
 
 export function ReviewBox({ product, verdict, pros, cons }: ReviewBoxProps) {
@@ -31,11 +37,11 @@ export function ReviewBox({ product, verdict, pros, cons }: ReviewBoxProps) {
                     </div>
 
                     <div className="font-mono font-bold text-2xl text-editorial-red mb-3">
-                        {product.price ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price) : ''}
+                        {product.price != null ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price) : ''}
                     </div>
 
                     <a
-                        href={product.affiliate_link}
+                        href={getTrackingUrl(product.id)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full bg-editorial-red text-white font-sans font-bold text-center py-3 rounded-sm hover:bg-ink transition-colors flex items-center justify-center gap-2 uppercase text-sm tracking-wide"
@@ -78,6 +84,21 @@ export function ReviewBox({ product, verdict, pros, cons }: ReviewBoxProps) {
                                 ))}
                             </ul>
                         </div>
+                        {cons && cons.length > 0 && (
+                            <div>
+                                <h4 className="font-bold text-[11px] uppercase tracking-wide mb-3 text-editorial-red flex items-center gap-2">
+                                    <Info size={12} /> Contras
+                                </h4>
+                                <ul className="space-y-2">
+                                    {cons.map((con, i) => (
+                                        <li key={i} className="text-[13px] text-[#666] flex items-start gap-2">
+                                            <Check size={14} className="text-editorial-red mt-0.5 shrink-0" />
+                                            {con}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -1,22 +1,19 @@
--- Create partners table
 CREATE TABLE IF NOT EXISTS partners (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   logo_url TEXT,
   website_url TEXT,
-  status TEXT DEFAULT 'active',
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'inactive', 'pending')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Create categories table
 CREATE TABLE IF NOT EXISTS categories (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   slug TEXT NOT NULL UNIQUE,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Create products table
 CREATE TABLE IF NOT EXISTS products (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   partner_id UUID REFERENCES partners(id) ON DELETE SET NULL,
@@ -26,31 +23,32 @@ CREATE TABLE IF NOT EXISTS products (
   price DECIMAL(10, 2),
   affiliate_link TEXT NOT NULL,
   image_url TEXT,
-  rating DECIMAL(2, 1),
+  rating DECIMAL(2, 1) CHECK (rating IS NULL OR (rating >= 0 AND rating <= 5)),
   reviews_count INTEGER DEFAULT 0,
   is_verified BOOLEAN DEFAULT FALSE,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Create clicks table for analytics
 CREATE TABLE IF NOT EXISTS clicks (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  product_id UUID REFERENCES products(id) ON DELETE CASCADE,
+  product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
   article_slug TEXT,
   user_agent TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Enable Row Level Security (RLS)
 ALTER TABLE partners ENABLE ROW LEVEL SECURITY;
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE clicks ENABLE ROW LEVEL SECURITY;
 
--- Create policies for public read access (products/categories/partners)
-CREATE POLICY "Public partners are viewable by everyone." ON partners FOR SELECT USING (true);
-CREATE POLICY "Public categories are viewable by everyone." ON categories FOR SELECT USING (true);
-CREATE POLICY "Public products are viewable by everyone." ON products FOR SELECT USING (true);
+CREATE POLICY "Public partners read" ON partners FOR SELECT USING (true);
+CREATE POLICY "Public categories read" ON categories FOR SELECT USING (true);
+CREATE POLICY "Public products read" ON products FOR SELECT USING (true);
+CREATE POLICY "Public click insert" ON clicks FOR INSERT WITH CHECK (true);
 
--- Create policy for clicks (insert only for public, viewable by authenticated/admin ideally, but keeping it simple for now)
-CREATE POLICY "Public can insert clicks." ON clicks FOR INSERT WITH CHECK (true);
+CREATE INDEX idx_products_partner_id ON products(partner_id);
+CREATE INDEX idx_products_category_id ON products(category_id);
+CREATE INDEX idx_clicks_product_id ON clicks(product_id);
+CREATE INDEX idx_clicks_created_at ON clicks(created_at);
+CREATE INDEX idx_categories_slug ON categories(slug);
